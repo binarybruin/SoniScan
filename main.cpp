@@ -157,7 +157,7 @@ int main(void)
                     control.ReadFile(batchFileName);
                     engine.SetSlice(29);
 					engine.createSlice(1, FPVIEW);
-					engine.getSliceObj().setPoints("text.txt", 1, FPVIEW);
+					engine.getSliceObj().setPoints("test.txt", 1, FPVIEW);
                     engine.SonifySelect();
 
                     strcpy(batchFileName, fileBase[baseNum]);
@@ -166,7 +166,7 @@ int main(void)
                     control.ReadFile(batchFileName);
                     engine.SetSlice(0);
 					engine.createSlice(3, PERSPVIEW);
-					engine.getSliceObj().setPoints("text.txt", 3, PERSPVIEW);
+					engine.getSliceObj().setPoints("test.txt", 3, PERSPVIEW);
                     engine.SonifySelect();
                 }
                 break;

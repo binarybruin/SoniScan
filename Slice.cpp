@@ -20,15 +20,17 @@ void Slice::readSlice(std::string str, int index) {
 	int pos = 0;
 	std::string tmp = "";
 	for (int curr = 0; curr < str.size(); curr++) {
-		while (isdigit(str[curr])) {
+		if (isdigit(str[curr])) {
 			tmp += str[curr++];
 		}
-		if (pos == 0) {
-			m_points[index].x = std::stoi(tmp);
-			pos++;
-		}
-		else {
-			m_points[index].y = std::stoi(tmp);
+		if (!isdigit(str[curr])) {
+			if (pos == 0) {
+				m_points[index].x = std::stoi(tmp);
+				pos++;
+			}
+			else {
+				m_points[index].y = std::stoi(tmp);
+			}
 		}
 		// Reset at semicolon - separator for points
 		if (str[curr] == ';') {
