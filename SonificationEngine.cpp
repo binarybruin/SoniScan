@@ -8,6 +8,17 @@
 
 #include "SonificationEngine.h"
 
+// ADDED =============================
+void SonificationEngine::createSlice(int number, int view)
+{
+	sliceObj = new Slice(number, view);
+}
+Slice SonificationEngine::getSliceObj()
+{
+	return *sliceObj;
+}
+//====================================
+
 // ===================================
 //      GETTERS AND SETTERS
 // ===================================
@@ -191,6 +202,9 @@ int SonificationEngine::GetInstrNum(float argValue)
 }
 
 int SonificationEngine::GetLobe(int x, int y) {
+
+	Slice sliceObj = getSliceObj();
+
     if (std::abs(PERSPSLICE-slice) < std::abs(FPSLICE-slice)) {    // Perspective slice
 
         // Mirror if right half
@@ -199,17 +213,21 @@ int SonificationEngine::GetLobe(int x, int y) {
         // }
 
         // Frontal Lobe
-        if (!PointUpLine(x,y,QX,QY,PX,PY) && !PointRightLine(x,y,QX,QY,NX,NY)) {
+		if (!PointUpLine(x, y, sliceObj.getPoint('Q').x, sliceObj.getPoint('Q').y, sliceObj.getPoint('P').x, sliceObj.getPoint('P').y) && 
+			!PointRightLine(x, y, sliceObj.getPoint('Q').x, sliceObj.getPoint('Q').y, sliceObj.getPoint('N').x, sliceObj.getPoint('N').y)) {
             return 1;
         }
 
         // Sensory Motor Cortex
-        if (!PointUpLine(x,y,QX,QY,PX,PY) && PointRightLine(x,y,QX,QY,NX,NY) && !PointRightLine(x,y,PX,PY,OX,OY)) {
+		if (!PointUpLine(x, y, sliceObj.getPoint('Q').x, sliceObj.getPoint('Q').y, sliceObj.getPoint('P').x, sliceObj.getPoint('P').y) &&
+			!PointRightLine(x, y, sliceObj.getPoint('Q').x, sliceObj.getPoint('Q').y, sliceObj.getPoint('N').x, sliceObj.getPoint('N').y) && 
+			!PointRightLine(x, y, sliceObj.getPoint('P').x, sliceObj.getPoint('P').y, sliceObj.getPoint('O').x, sliceObj.getPoint('O').y)) {
             return 2;
         }
 
         // Parietal Lobe
-        if (!PointUpLine (x,y,QX,QY,PX,PY) && PointRightLine(x,y,PX,PY,OX,OY)) {
+		if (!PointUpLine(x, y, sliceObj.getPoint('Q').x, sliceObj.getPoint('Q').y, sliceObj.getPoint('P').x, sliceObj.getPoint('P').y) && 
+			PointRightLine(x, y, sliceObj.getPoint('P').x, sliceObj.getPoint('P').y, sliceObj.getPoint('O').x, sliceObj.getPoint('O').y)) {
             return 3;
         }
     }
@@ -218,18 +236,26 @@ int SonificationEngine::GetLobe(int x, int y) {
     else if (std::abs(FPSLICE-slice) < std::abs(TOSLICE-slice)) {    // Frontal Parietal slice
 
         // Frontal lobe
-        if (!PointUpLine(x,y,AX,AX,BX,BY) && !PointUpLine(x,y,BX,BY,HX,HY) && !PointUpLine(x,y,HX,HY,EX,EY)) {
+		if (!PointUpLine(x, y, sliceObj.getPoint('A').x, sliceObj.getPoint('A').y, sliceObj.getPoint('B').x, sliceObj.getPoint('B').y) && 
+			!PointUpLine(x, y, sliceObj.getPoint('B').x, sliceObj.getPoint('B').y, sliceObj.getPoint('H').x, sliceObj.getPoint('H').y) && 
+			!PointUpLine(x, y, sliceObj.getPoint('H').x, sliceObj.getPoint('H').y, sliceObj.getPoint('E').x, sliceObj.getPoint('E').y)) {
             return 1;
         }
 
         // Sensory Motor Cortex
-        if ( (PointUpLine(x,y,AX,AX,BX,BY) && !PointUpLine(x,y,DX,DY,CX,CY) && !PointRightLine(x,y,BX,BY,CX,CY) ) ||
-             (PointUpLine(x,y,HX,HY,EX,EY) && !PointUpLine(x,y,GX,GY,FX,FY) && PointRightLine(x,y,HX,HY,GX,GY) ) ) {
+		if ((PointUpLine(x, y, sliceObj.getPoint('A').x, sliceObj.getPoint('A').y, sliceObj.getPoint('B').x, sliceObj.getPoint('B').y) && 
+			!PointUpLine(x, y, sliceObj.getPoint('D').x, sliceObj.getPoint('D').y, sliceObj.getPoint('C').x, sliceObj.getPoint('C').y) && 
+			!PointRightLine(x, y, sliceObj.getPoint('B').x, sliceObj.getPoint('B').y, sliceObj.getPoint('C').x, sliceObj.getPoint('C').y)) ||
+			(PointUpLine(x, y, sliceObj.getPoint('H').x, sliceObj.getPoint('H').y, sliceObj.getPoint('E').x, sliceObj.getPoint('E').y) && 
+			!PointUpLine(x, y, sliceObj.getPoint('G').x, sliceObj.getPoint('G').y, sliceObj.getPoint('F').x, sliceObj.getPoint('F').y) && 
+			PointRightLine(x, y, sliceObj.getPoint('H').x, sliceObj.getPoint('H').y, sliceObj.getPoint('G').x, sliceObj.getPoint('G').y))) {
             return 2;
         }
 
         // Parietal Lobe
-        if  (PointUpLine(x,y,DX,DX,CX,CY) || PointUpLine(x,y,CX,CY,GX,GY) || PointUpLine(x,y,GX,GY,FX,FY)) {
+		if (PointUpLine(x, y, sliceObj.getPoint('D').x, sliceObj.getPoint('D').y, sliceObj.getPoint('C').x, sliceObj.getPoint('C').y) || 
+			PointUpLine(x, y, sliceObj.getPoint('C').x, sliceObj.getPoint('C').y, sliceObj.getPoint('G').x, sliceObj.getPoint('G').y) || 
+			PointUpLine(x, y, sliceObj.getPoint('G').x, sliceObj.getPoint('G').y, sliceObj.getPoint('F').x, sliceObj.getPoint('F').y)) {
             return 3;
         }
     }
@@ -238,14 +264,18 @@ int SonificationEngine::GetLobe(int x, int y) {
     else {  // Temporal Occipital slice
 
         // Occipital Lobe
-        if (PointUpLine(x,y,IX,IY,JX,JY) && PointUpLine(x,y,LX,LY,MX,MY) && 
-            ! (!PointUpLine(x,y,JX,JY,KX,KY) && !PointUpLine(x,y,KX,KY,LX,LY)) ) {
+		if (PointUpLine(x, y, sliceObj.getPoint('I').x, sliceObj.getPoint('I').y, sliceObj.getPoint('J').x, sliceObj.getPoint('J').y) && 
+			PointUpLine(x, y, sliceObj.getPoint('L').x, sliceObj.getPoint('L').y, sliceObj.getPoint('M').x, sliceObj.getPoint('M').y) &&
+			!(!PointUpLine(x, y, sliceObj.getPoint('J').x, sliceObj.getPoint('J').y, sliceObj.getPoint('K').x, sliceObj.getPoint('K').y) && 
+			!PointUpLine(x, y, sliceObj.getPoint('K').x, sliceObj.getPoint('K').y, sliceObj.getPoint('L').x, sliceObj.getPoint('L').y))) {
             return 5;
         }
 
         // Temporal Lobe
-        if ( ( !PointUpLine(x,y,IX,IY,JX,JY) && !PointRightLine(x,y,JX,JY,JX,JY+1) ) ||
-            (!PointUpLine(x,y,LX,LY,MX,MY) && PointRightLine(x,y,LX,LY,LX,LY+1)) ) {
+		if ((!PointUpLine(x, y, sliceObj.getPoint('I').x, sliceObj.getPoint('I').y, sliceObj.getPoint('J').x, sliceObj.getPoint('J').y) && 
+			!PointRightLine(x, y, sliceObj.getPoint('J').x, sliceObj.getPoint('J').y, sliceObj.getPoint('J').x, sliceObj.getPoint('J').y + 1)) ||
+			(!PointUpLine(x, y, sliceObj.getPoint('L').x, sliceObj.getPoint('L').y, sliceObj.getPoint('M').x, sliceObj.getPoint('M').y) && 
+			PointRightLine(x, y, sliceObj.getPoint('L').x, sliceObj.getPoint('L').y, sliceObj.getPoint('L').x, sliceObj.getPoint('L').y + 1))) {
             return 4;
         }
     }

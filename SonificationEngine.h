@@ -17,8 +17,12 @@
 #include <algorithm>
 #include "Constants.h"
 
+#include "Slice.h"
+
 class SonificationEngine
 {
+	Slice *sliceObj;
+
     float ***masterData;
     int masterDataSize[3];
     int mode;               // Mode  : 1 = instrument grid mode
@@ -59,6 +63,11 @@ class SonificationEngine
     int sliceHeight;
     
 public:
+	// added
+	void createSlice(int, int);
+	Slice getSliceObj();
+	////////////////////////////
+
     void SetDataFilename(char*);
     
     int GetMode();
