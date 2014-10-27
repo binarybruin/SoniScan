@@ -84,29 +84,30 @@ typedef float sample;
 #define FPSLICE 30
 #define TOSLICE 68
 
-#define AX 14
-#define AY 37
+// Define coordinate indices
+#define AX 0
+#define AY 1
 
-#define BX 28
-#define BY 45
+#define BX 2
+#define BY 3
 
-#define CX 26
-#define CY 57
+#define CX 4
+#define CY 5
 
-#define DX 7
-#define DY 50
+#define DX 6
+#define DY 7
 
-#define EX 72
-#define EY 37
+#define EX 8
+#define EY 9
 
-#define FX 75
-#define FY 54
+#define FX 10
+#define FY 11
 
-#define GX 58
-#define GY 59
+#define GX 12
+#define GY 13
 
-#define HX 52
-#define HY 44
+#define HX 14
+#define HY 15
 
 #define IX 11
 #define IY 65
@@ -123,17 +124,17 @@ typedef float sample;
 #define MX 0
 #define MY 67
 
-#define NX 149
-#define NY 0
+#define NX 0
+#define NY 1
 
-#define OX 193
-#define OY 0
+#define OX 2
+#define OY 3
 
-#define PX 148
-#define PY 132
+#define PX 4
+#define PY 5
 
-#define QX 111
-#define QY 147
+#define QX 6
+#define QY 7
 
 #define ORTHOGL_MIDLINE 43
 #define PERSPEC_MIDLINE 321.5
