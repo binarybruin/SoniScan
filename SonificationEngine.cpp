@@ -8,6 +8,8 @@
 
 #include "SonificationEngine.h"
 
+#include "Helpers.h"
+
 // ===================================
 //      GETTERS AND SETTERS
 // ===================================
@@ -198,6 +200,11 @@ int SonificationEngine::GetLobe(int x, int y) {
         //     x = 2*MIDLINE - x;
         // }
 
+		// READ FILE FOR PERSP SLICE COORDS
+		// Read file into 2D matrix
+
+
+
         // Frontal Lobe
         if (!PointUpLine(x,y,QX,QY,PX,PY) && !PointRightLine(x,y,QX,QY,NX,NY)) {
             return 1;
@@ -215,21 +222,71 @@ int SonificationEngine::GetLobe(int x, int y) {
     }
 
 
+
     else if (std::abs(FPSLICE-slice) < std::abs(TOSLICE-slice)) {    // Frontal Parietal slice
 
+		// READ FILE FOR FP SLICE COORDS
+		// Read file into 2D matrix
+		ifstream infile;
+		string line;
+		vector<string> tokens;
+		int coords[50][16];
+
+		infile.open("fpcoords.txt");
+
+		for (int i = 0; i < 50; i++) {		// TODO: change to while (getline(...))
+			getline(infile, line);
+			split(line, ' ', tokens);
+			// Put tokens into array
+			for (int j = 0; j < 16; j++) {
+				coords[i][j] = stoi(tokens.at(j));
+				//cout << coords[i][j] << " ";
+			}
+		}
+
+		infile.close();
+
+		// set slice index
+		int curr = FPSLICE - 1;
+		// set coordinate indices		// TODO: move to constants
+		int ax = 0;
+		int ay = 1;
+		int bx = 2;
+		int by = 3;
+		int cx = 4;
+		int cy = 5;
+		int dx = 6;
+		int dy = 7;
+		int ex = 8;
+		int ey = 9;
+		int fx = 10;
+		int fy = 11;
+		int gx = 12;
+		int gy = 13;
+		int hx = 14;
+		int hy = 15;
+
         // Frontal lobe
-        if (!PointUpLine(x,y,AX,AX,BX,BY) && !PointUpLine(x,y,BX,BY,HX,HY) && !PointUpLine(x,y,HX,HY,EX,EY)) {
+		if (!PointUpLine(x, y, coords[curr][ax], coords[curr][ax], coords[curr][bx], coords[curr][by]) && 
+			!PointUpLine(x, y, coords[curr][bx], coords[curr][by], coords[curr][hx], coords[curr][hy]) && 
+			!PointUpLine(x, y, coords[curr][hx], coords[curr][hy], coords[curr][ex], coords[curr][ey])) {
             return 1;
         }
 
         // Sensory Motor Cortex
-        if ( (PointUpLine(x,y,AX,AX,BX,BY) && !PointUpLine(x,y,DX,DY,CX,CY) && !PointRightLine(x,y,BX,BY,CX,CY) ) ||
-             (PointUpLine(x,y,HX,HY,EX,EY) && !PointUpLine(x,y,GX,GY,FX,FY) && PointRightLine(x,y,HX,HY,GX,GY) ) ) {
+		if ((PointUpLine(x, y, coords[curr][ax], coords[curr][ax], coords[curr][bx], coords[curr][by]) && 
+			!PointUpLine(x, y, coords[curr][dx], coords[curr][dy], coords[curr][cx], coords[curr][cy]) && 
+			!PointRightLine(x, y, coords[curr][bx], coords[curr][by], coords[curr][cx], coords[curr][cy])) ||
+			(PointUpLine(x, y, coords[curr][hx], coords[curr][hy], coords[curr][ex], coords[curr][ey]) && 
+			!PointUpLine(x, y, coords[curr][gx], coords[curr][gy], coords[curr][fx], coords[curr][fy]) && 
+			PointRightLine(x, y, coords[curr][hx], coords[curr][hy], coords[curr][gx], coords[curr][gy]))) {
             return 2;
         }
 
         // Parietal Lobe
-        if  (PointUpLine(x,y,DX,DX,CX,CY) || PointUpLine(x,y,CX,CY,GX,GY) || PointUpLine(x,y,GX,GY,FX,FY)) {
+		if (PointUpLine(x, y, coords[curr][dx], coords[curr][dx], coords[curr][cx], coords[curr][cy]) || 
+			PointUpLine(x, y, coords[curr][cx], coords[curr][cy], coords[curr][gx], coords[curr][gy]) || 
+			PointUpLine(x, y, coords[curr][gx], coords[curr][gy], coords[curr][fx], coords[curr][fy])) {
             return 3;
         }
     }
