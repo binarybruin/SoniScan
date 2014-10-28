@@ -155,14 +155,14 @@ int main(void)
                     strcat(batchFileName, "_orthogl");
                     cout << batchFileName << "\n";
                     control.ReadFile(batchFileName);
-                    engine.SetSlice(29);
+                    engine.SetSlice(FPSLICE - 1);
                     engine.SonifySelect();
 
                     strcpy(batchFileName, fileBase[baseNum]);
                     strcat(batchFileName, "_perspec");
                     cout << batchFileName << "\n";
                     control.ReadFile(batchFileName);
-                    engine.SetSlice(0);
+                    engine.SetSlice(PERSPSLICE);
                     engine.SonifySelect();
                 }
                 break;

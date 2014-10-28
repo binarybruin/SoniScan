@@ -8,7 +8,9 @@
 
 #include "SonificationEngine.h"
 
-#include "Helpers.h"
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 // ===================================
 //      GETTERS AND SETTERS
@@ -203,23 +205,20 @@ int SonificationEngine::GetLobe(int x, int y) {
 		// READ FILE FOR PERSP SLICE COORDS
 		// Read file into 2D matrix
 		ifstream infile;
-		string line;
-		vector<string> tokens;
 		int coords[1][8];
 
 		infile.open("perspcoords.txt");
 
 		for (int i = 0; i < 1; i++) {
-			getline(infile, line);
-			split(line, ' ', tokens);
-			// Put tokens into array
 			for (int j = 0; j < 8; j++) {
-				coords[i][j] = stoi(tokens.at(j));
-				//cout << coords[i][j] << " ";
+				infile >> coords[i][j];
+				cout << coords[i][j] << " ";
 			}
+			cout << "\n";
 		}
 
 		infile.close();
+
 
 		// set slice index
 		int curr = PERSPSLICE;
@@ -252,20 +251,16 @@ int SonificationEngine::GetLobe(int x, int y) {
 		// READ FILE FOR FP SLICE COORDS
 		// Read file into 2D matrix
 		ifstream infile;
-		string line;
-		vector<string> tokens;
 		int coords[50][16];
 
 		infile.open("fpcoords.txt");
 
 		for (int i = 0; i < 50; i++) {
-			getline(infile, line);
-			split(line, ' ', tokens);
-			// Put tokens into array
 			for (int j = 0; j < 16; j++) {
-				coords[i][j] = stoi(tokens.at(j));
-				//cout << coords[i][j] << " ";
+				infile >> coords[i][j];
+				cout << coords[i][j] << " ";
 			}
+			cout << "\n";
 		}
 
 		infile.close();
