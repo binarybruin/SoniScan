@@ -212,9 +212,9 @@ int SonificationEngine::GetLobe(int x, int y) {
 		for (int i = 0; i < 1; i++) {
 			for (int j = 0; j < 8; j++) {
 				infile >> coords[i][j];
-				cout << coords[i][j] << " ";
+				//cout << coords[i][j] << " ";
 			}
-			cout << "\n";
+			//cout << "\n";
 		}
 
 		infile.close();
@@ -258,9 +258,9 @@ int SonificationEngine::GetLobe(int x, int y) {
 		for (int i = 0; i < 50; i++) {
 			for (int j = 0; j < 16; j++) {
 				infile >> coords[i][j];
-				cout << coords[i][j] << " ";
+				//cout << coords[i][j] << " ";
 			}
-			cout << "\n";
+			//cout << "\n";
 		}
 
 		infile.close();
