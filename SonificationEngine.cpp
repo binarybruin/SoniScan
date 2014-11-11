@@ -251,11 +251,11 @@ int SonificationEngine::GetLobe(int x, int y) {
 		// READ FILE FOR FP SLICE COORDS
 		// Read file into 2D matrix
 		ifstream infile;
-		int coords[50][16];
+		int coords[NUM_SLICES][16];
 
 		infile.open("fpcoords.txt");
 
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < NUM_SLICES; i++) {
 			for (int j = 0; j < 16; j++) {
 				infile >> coords[i][j];
 				//cout << coords[i][j] << " ";

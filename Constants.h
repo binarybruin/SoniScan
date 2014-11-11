@@ -84,6 +84,8 @@ typedef float sample;
 #define FPSLICE 30
 #define TOSLICE 68
 
+#define NUM_SLICES 86
+
 // Define coordinate indices
 #define AX 0
 #define AY 1
