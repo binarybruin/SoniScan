@@ -145,6 +145,9 @@ int main(void)
                 // BATCH PROCESSOR
                 // ================================
 
+				// READ COORDINATES INTO MATRIX
+				engine.ReadCoords();
+
                 numLog.open(OUTPUT_PATH NUMBERS_LOG, std::ios::trunc);
                 numLog << "Brain, L Frontal, L SMC, L Parietal, R Frontal, R SMC, R Parietal\n";
                 numLog.close();

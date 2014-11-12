@@ -59,6 +59,8 @@ class SonificationEngine
     int sliceHeight;
     
 public:
+	void ReadCoords();
+
     void SetDataFilename(char*);
     
     int GetMode();

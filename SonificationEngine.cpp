@@ -12,6 +12,43 @@
 #include <fstream>
 using namespace std;
 
+int perspCoords[1][8];
+int fpCoords[NUM_SLICES][16];
+
+void SonificationEngine::ReadCoords() {
+	// READ FILE FOR PERSP SLICE COORDS
+	// Read file into 2D matrix
+	std::ifstream infile1;
+
+	infile1.open("perspcoords.txt");
+
+	for (int i = 0; i < 1; i++) {
+		for (int j = 0; j < 8; j++) {
+			infile1 >> perspCoords[i][j];
+			//cout << perspCoords[i][j] << " ";
+		}
+		//cout << "\n";
+	}
+
+	infile1.close();
+
+	// READ FILE FOR FP SLICE COORDS
+	// Read file into 2D matrix
+	std::ifstream infile2;
+
+	infile2.open("fpcoords.txt");
+
+	for (int i = 0; i < NUM_SLICES; i++) {
+		for (int j = 0; j < 16; j++) {
+			infile2 >> fpCoords[i][j];
+			//cout << fpCoords[i][j] << " ";
+		}
+		//cout << "\n";
+	}
+
+	infile2.close();
+}
+
 // ===================================
 //      GETTERS AND SETTERS
 // ===================================
@@ -202,44 +239,25 @@ int SonificationEngine::GetLobe(int x, int y) {
         //     x = 2*MIDLINE - x;
         // }
 
-		// READ FILE FOR PERSP SLICE COORDS
-		// Read file into 2D matrix
-		ifstream infile;
-		int coords[1][8];
-
-		infile.open("perspcoords.txt");
-
-		for (int i = 0; i < 1; i++) {
-			for (int j = 0; j < 8; j++) {
-				infile >> coords[i][j];
-				//cout << coords[i][j] << " ";
-			}
-			//cout << "\n";
-		}
-
-		infile.close();
-
-
 		// set slice index
 		int curr = PERSPSLICE;
 
-
         // Frontal Lobe
-		if (!PointUpLine(x, y, coords[curr][QX], coords[curr][QY], coords[curr][PX], coords[curr][PY]) && 
-			!PointRightLine(x, y, coords[curr][QX], coords[curr][QY], coords[curr][NX], coords[curr][NY])) {
+		if (!PointUpLine(x, y, perspCoords[curr][QX], perspCoords[curr][QY], perspCoords[curr][PX], perspCoords[curr][PY]) &&
+			!PointRightLine(x, y, perspCoords[curr][QX], perspCoords[curr][QY], perspCoords[curr][NX], perspCoords[curr][NY])) {
             return 1;
         }
 
         // Sensory Motor Cortex
-		if (!PointUpLine(x, y, coords[curr][QX], coords[curr][QY], coords[curr][PX], coords[curr][PY]) && 
-			PointRightLine(x, y, coords[curr][QX], coords[curr][QY], coords[curr][NX], coords[curr][NY]) && 
-			!PointRightLine(x, y, coords[curr][PX], coords[curr][PY], coords[curr][OX], coords[curr][OY])) {
+		if (!PointUpLine(x, y, perspCoords[curr][QX], perspCoords[curr][QY], perspCoords[curr][PX], perspCoords[curr][PY]) &&
+			PointRightLine(x, y, perspCoords[curr][QX], perspCoords[curr][QY], perspCoords[curr][NX], perspCoords[curr][NY]) &&
+			!PointRightLine(x, y, perspCoords[curr][PX], perspCoords[curr][PY], perspCoords[curr][OX], perspCoords[curr][OY])) {
             return 2;
         }
 
         // Parietal Lobe
-		if (!PointUpLine(x, y, coords[curr][QX], coords[curr][QY], coords[curr][PX], coords[curr][PY]) && 
-			PointRightLine(x, y, coords[curr][PX], coords[curr][PY], coords[curr][OX], coords[curr][OY])) {
+		if (!PointUpLine(x, y, perspCoords[curr][QX], perspCoords[curr][QY], perspCoords[curr][PX], perspCoords[curr][PY]) &&
+			PointRightLine(x, y, perspCoords[curr][PX], perspCoords[curr][PY], perspCoords[curr][OX], perspCoords[curr][OY])) {
             return 3;
         }
     }
@@ -248,47 +266,30 @@ int SonificationEngine::GetLobe(int x, int y) {
 
     else if (std::abs(FPSLICE-slice) < std::abs(TOSLICE-slice)) {    // Frontal Parietal slice
 
-		// READ FILE FOR FP SLICE COORDS
-		// Read file into 2D matrix
-		ifstream infile;
-		int coords[NUM_SLICES][16];
-
-		infile.open("fpcoords.txt");
-
-		for (int i = 0; i < NUM_SLICES; i++) {
-			for (int j = 0; j < 16; j++) {
-				infile >> coords[i][j];
-				//cout << coords[i][j] << " ";
-			}
-			//cout << "\n";
-		}
-
-		infile.close();
-
 		// set slice index
 		int curr = GetSlice();
 
         // Frontal lobe
-		if (!PointUpLine(x, y, coords[curr][AX], coords[curr][AX], coords[curr][BX], coords[curr][BY]) && 
-			!PointUpLine(x, y, coords[curr][BX], coords[curr][BY], coords[curr][HX], coords[curr][HY]) && 
-			!PointUpLine(x, y, coords[curr][HX], coords[curr][HY], coords[curr][EX], coords[curr][EY])) {
+		if (!PointUpLine(x, y, fpCoords[curr][AX], fpCoords[curr][AX], fpCoords[curr][BX], fpCoords[curr][BY]) &&
+			!PointUpLine(x, y, fpCoords[curr][BX], fpCoords[curr][BY], fpCoords[curr][HX], fpCoords[curr][HY]) &&
+			!PointUpLine(x, y, fpCoords[curr][HX], fpCoords[curr][HY], fpCoords[curr][EX], fpCoords[curr][EY])) {
             return 1;
         }
 
         // Sensory Motor Cortex
-		if ((PointUpLine(x, y, coords[curr][AX], coords[curr][AX], coords[curr][BX], coords[curr][BY]) && 
-			!PointUpLine(x, y, coords[curr][DX], coords[curr][DY], coords[curr][CX], coords[curr][CY]) && 
-			!PointRightLine(x, y, coords[curr][BX], coords[curr][BY], coords[curr][CX], coords[curr][CY])) ||
-			(PointUpLine(x, y, coords[curr][HX], coords[curr][HY], coords[curr][EX], coords[curr][EY]) && 
-			!PointUpLine(x, y, coords[curr][GX], coords[curr][GY], coords[curr][FX], coords[curr][FY]) && 
-			PointRightLine(x, y, coords[curr][HX], coords[curr][HY], coords[curr][GX], coords[curr][GY]))) {
+		if ((PointUpLine(x, y, fpCoords[curr][AX], fpCoords[curr][AX], fpCoords[curr][BX], fpCoords[curr][BY]) &&
+			!PointUpLine(x, y, fpCoords[curr][DX], fpCoords[curr][DY], fpCoords[curr][CX], fpCoords[curr][CY]) &&
+			!PointRightLine(x, y, fpCoords[curr][BX], fpCoords[curr][BY], fpCoords[curr][CX], fpCoords[curr][CY])) ||
+			(PointUpLine(x, y, fpCoords[curr][HX], fpCoords[curr][HY], fpCoords[curr][EX], fpCoords[curr][EY]) &&
+			!PointUpLine(x, y, fpCoords[curr][GX], fpCoords[curr][GY], fpCoords[curr][FX], fpCoords[curr][FY]) &&
+			PointRightLine(x, y, fpCoords[curr][HX], fpCoords[curr][HY], fpCoords[curr][GX], fpCoords[curr][GY]))) {
             return 2;
         }
 
         // Parietal Lobe
-		if (PointUpLine(x, y, coords[curr][DX], coords[curr][DX], coords[curr][CX], coords[curr][CY]) || 
-			PointUpLine(x, y, coords[curr][CX], coords[curr][CY], coords[curr][GX], coords[curr][GY]) || 
-			PointUpLine(x, y, coords[curr][GX], coords[curr][GY], coords[curr][FX], coords[curr][FY])) {
+		if (PointUpLine(x, y, fpCoords[curr][DX], fpCoords[curr][DX], fpCoords[curr][CX], fpCoords[curr][CY]) ||
+			PointUpLine(x, y, fpCoords[curr][CX], fpCoords[curr][CY], fpCoords[curr][GX], fpCoords[curr][GY]) ||
+			PointUpLine(x, y, fpCoords[curr][GX], fpCoords[curr][GY], fpCoords[curr][FX], fpCoords[curr][FY])) {
             return 3;
         }
     }
