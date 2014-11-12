@@ -40,9 +40,9 @@ typedef float sample;
 // File paths
 // =======================
 #define CSOUND_PATH ""	//"/usr/local/bin/"    //  <---- Change this to the path where you have Csound installed. (usually "/usr/local/bin/")
-#define TEST_DATA_PATH "C:\Users\Michelle\Documents\NYU\Fall_2014\Sonification\Michelle\DataFiles"
-#define CSOUNDFILES_PATH "C:\Users\Michelle\Documents\NYU\Fall_2014\Sonification\Michelle\CsoundFiles"  //  <---- Change this to the path where you are storing your CSound files for this project
-#define OUTPUT_PATH "./Output/"
+#define TEST_DATA_PATH "C:/Users/Michelle/sonification/SoniScan/DataFiles/"
+#define CSOUNDFILES_PATH "C:/Users/Michelle/sonification/SoniScan/CsoundFiles/"  //  <---- Change this to the path where you are storing your CSound files for this project
+#define OUTPUT_PATH "C:/Users/Michelle/sonification/SoniScan/Output/"
 #define NUMBERS_LOG "numbers_log.csv"
 // =======================
 // ControlBlock parameters

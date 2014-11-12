@@ -266,7 +266,7 @@ int SonificationEngine::GetLobe(int x, int y) {
 		infile.close();
 
 		// set slice index
-		int curr = FPSLICE - 1;
+		int curr = GetSlice();
 
         // Frontal lobe
 		if (!PointUpLine(x, y, coords[curr][AX], coords[curr][AX], coords[curr][BX], coords[curr][BY]) && 
